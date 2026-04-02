@@ -1,0 +1,38 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>My notes</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+
+<body>
+    <h1>Notes list</h1>
+    <form method="get">
+    <label>
+        Search by category:
+        <input type="text" name="search" placeholder="Enter title name">
+    </label>
+    <button type="submit">Search</button>
+</form>
+    <p>
+    <span>Create note: </span>
+    <a href="{% url 'notes:note_create' %}" class="btn-add">Add note</a>
+</p>
+    <div class="notes-container">
+        {% for note in notes %}
+            <div class="note-card">
+                <h2><a href="{{ note.get_absolute_url }}">{{ note.title }}</a></h2>
+                <p>{{ note.text }}</p>
+                <small>Category: {{ note.category.title }}</small>
+                {% if note.reminder %}
+                    <p class="reminder">Reminder: {{ note.reminder }}</p>
+                {% endif %}
+            </div>
+        {% empty %}
+            <p>Notes don't exist.</p>
+        {% endfor %}
+    </div>
+</body>
+</html>

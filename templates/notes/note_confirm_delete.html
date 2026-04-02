@@ -1,0 +1,8 @@
+<form method="post">
+    {% csrf_token %}
+    <p>
+        Are you sure want to delete {{ note }} ?
+    </p>
+    <button type="submit">Yes, delete</button>
+    <a href="{% url 'notes:note_details' notes.pk %}">Cancel</a>
+</form>

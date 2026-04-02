@@ -1,0 +1,5 @@
+<p>
+    {{ notes.title }} {{ notes.text }} {{ notes.reminder }} {{ notes.reminder }} {{ notes.category }} {{ notes.created_at }}
+</p>
+<a href="{% url 'notes:note_edit' notes.pk %}">Edit note</a>
+<a href="{% url 'notes:note_delete' notes.pk %}">Delete note</a>
