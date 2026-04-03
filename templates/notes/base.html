@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Notes App{% endblock %}</title>
+</head>
+<body>
+    <header>
+        <nav>
+            {% if user.is_authenticated %}
+                    <div>
+                        <span>User: <strong>{{ user.username }}</strong></span>
+                        <a href="{% url 'notes:logout' %}">Logout</a>
+                    </div>
+            {% else %}
+                {% endif %}
+        </nav>
+    </header>
+    <hr>
+    {% if messages %}
+            {% for message in messages %}
+                <p>{{ message }}</p>
+            {% endfor %}
+    {% endif %}
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+</body>
+</html>

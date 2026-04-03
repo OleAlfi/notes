@@ -1,25 +1,23 @@
+{% extends "notes/base.html" %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="uk">
-<head>
-    <meta charset="UTF-8">
-    <title>My notes</title>
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
-</head>
 
-<body>
+{% block title %}My Notes{% endblock %}
+
+{% block content %}
     <h1>Notes list</h1>
+
     <form method="get">
-    <label>
-        Search by category:
-        <input type="text" name="search" placeholder="Enter title name">
-    </label>
-    <button type="submit">Search</button>
-</form>
+        <label>
+            Search by title:
+            <input type="text" name="search" placeholder="Enter title name">
+        </label>
+        <button type="submit">Search</button>
+    </form>
+
     <p>
-    <span>Create note: </span>
-    <a href="{% url 'notes:note_create' %}" class="btn-add">Add note</a>
-</p>
+        <span>Create note: </span>
+        <a href="{% url 'notes:note_create' %}" class="btn-add">Add note</a>
+    </p>
     <div class="notes-container">
         {% for note in notes %}
             <div class="note-card">
@@ -29,10 +27,11 @@
                 {% if note.reminder %}
                     <p class="reminder">Reminder: {{ note.reminder }}</p>
                 {% endif %}
+            <p>Created by: {{ note.author }}</p>
             </div>
         {% empty %}
             <p>Notes don't exist.</p>
         {% endfor %}
     </div>
-</body>
-</html>
+
+    {% endblock %}

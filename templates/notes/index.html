@@ -1,13 +1,13 @@
+{% extends "notes/base.html" %}
+
 {% load static %}
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Welcome page</title>
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
-</head>
-<body>
+{% load static %}
+
+{% block title %}My Notes{% endblock %}
+
+{% block content %}
+
+
 <h1>{{ message }}</h1>
-</body>
-</html>
+{% endblock %}

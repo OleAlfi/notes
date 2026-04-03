@@ -1,5 +1,20 @@
-<p>
-    {{ notes.title }} {{ notes.text }} {{ notes.reminder }} {{ notes.reminder }} {{ notes.category }} {{ notes.created_at }}
-</p>
-<a href="{% url 'notes:note_edit' notes.pk %}">Edit note</a>
-<a href="{% url 'notes:note_delete' notes.pk %}">Delete note</a>
+{% extends "notes/base.html" %}
+
+{% block title %}Note Details{% endblock %}
+
+{% block content %}
+    <h1>{{ object.title }}</h1>
+    <p>{{ object.text }}</p>
+    <p>Category: {{ object.category.title }}</p>
+    <p>Author: {{ object.author.username }}</p>
+
+    {% if object.author == user %}
+        <hr>
+        <p>
+            <a href="{% url 'notes:note_edit' object.pk %}">Edit note</a> | 
+            <a href="{% url 'notes:note_delete' object.pk %}">Delete note</a>
+        </p>
+    {% endif %}
+
+    <a href="{% url 'notes:list_notes' %}">Back to list</a>
+{% endblock %}
