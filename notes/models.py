@@ -3,11 +3,13 @@ from django.utils import timezone
 from django.urls import reverse
 from django.contrib.auth.models import User
 
+
 class Category(models.Model):
     title = models.CharField(max_length=200)
 
     def __str__(self):
         return self.title
+
 
 class Notes(models.Model):
     title = models.CharField(max_length=200)

@@ -6,14 +6,22 @@ from django.template.defaultfilters import title
 
 from notes.models import Category, Notes
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, DetailView, UpdateView, DeleteView, ListView
+from django.views.generic import (
+    CreateView,
+    DetailView,
+    UpdateView,
+    DeleteView,
+    ListView,
+)
 from .forms import CategoryForm, NotesForm, LoginForm, RegisterForm
 from django.contrib.auth import login, authenticate, logout
 from django.contrib import messages
 
+
 def index(request):
     message = "Hello from Notes app"
     return render(request, "notes/index.html", {"message": message})
+
 
 class NotesCreateView(LoginRequiredMixin, CreateView):
     model = Notes
@@ -24,6 +32,7 @@ class NotesCreateView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         form.instance.author = self.request.user
         return super().form_valid(form)
+
 
 class NotesListViews(LoginRequiredMixin, ListView):
     model = Notes
@@ -37,9 +46,11 @@ class NotesListViews(LoginRequiredMixin, ListView):
             queryset = queryset.filter(title__icontains=search_query)
         return queryset
 
+
 class NotesDetailView(LoginRequiredMixin, DetailView):
     model = Notes
     template_name = "notes/note_details.html"
+
 
 class NotesUpdateView(LoginRequiredMixin, UpdateView):
     model = Notes
@@ -50,6 +61,7 @@ class NotesUpdateView(LoginRequiredMixin, UpdateView):
     def get_queryset(self):
         return Notes.objects.filter(author=self.request.user)
 
+
 class NotesDeleteView(LoginRequiredMixin, DeleteView):
     model = Notes
     template_name = "notes/note_confirm_delete.html"
@@ -58,12 +70,6 @@ class NotesDeleteView(LoginRequiredMixin, DeleteView):
     def get_queryset(self):
         return Notes.objects.filter(author=self.request.user)
 
-
-# class CategoryCreateView(CreateView):
-#     model = Category
-#     form_class = CategoryForm
-#     template_name = "notes/category_form.html"
-#     success_url = reverse_lazy("notes")
 
 def login_view(request):
     if request.method == "GET":
@@ -91,7 +97,7 @@ def register_view(request):
         form = RegisterForm(request.POST)
         if form.is_valid():
             user = form.save()
-            login(request,  user)
+            login(request, user)
             messages.success(request, "Registration successful")
             return redirect("notes:list_notes")
     return render(request, "notes/register.html", {"form": form})
