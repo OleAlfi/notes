@@ -1,8 +1,32 @@
-<form method="post">
-    {% csrf_token %}
-    <p>
-        Are you sure want to delete {{ note }} ?
-    </p>
-    <button type="submit">Yes, delete</button>
-    <a href="{% url 'notes:note_details' notes.pk %}">Cancel</a>
-</form>
+{% extends "notes/base.html" %}
+
+{% block title %}Delete Note - {{ object.title }}{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6 col-lg-5">
+        <div class="card shadow-sm border-0 mt-5">
+            <div class="card-header bg-danger text-white p-3">
+                <h2 class="h5 mb-0 text-center">Confirm Deletion</h2>
+            </div>
+            <div class="card-body p-4 text-center">
+                <p class="lead mb-4">
+                    Are you sure you want to delete <br>
+                    <strong class="text-danger">"{{ object.title }}"</strong>?
+                </p>
+
+                <form method="post">
+                    {% csrf_token %}
+                    
+                    <div class="d-grid gap-2 d-md-block">
+                        <button type="submit" class="btn btn-danger px-4">Yes, delete</button>
+                        <a href="{% url 'notes:note_details' object.pk %}" class="btn btn-outline-secondary px-4">
+                            Cancel
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -4,34 +4,60 @@
 {% block title %}My Notes{% endblock %}
 
 {% block content %}
-    <h1>Notes list</h1>
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="h2">Notes list</h1>
+    </div>
 
-    <form method="get">
-        <label>
-            Search by title:
-            <input type="text" name="search" placeholder="Enter title name">
-        </label>
-        <button type="submit">Search</button>
-    </form>
+    <div class="card mb-4 border-0 shadow-sm">
+        <div class="card-body">
+            <form method="get" class="row g-2">
+                <div class="col-sm-9 col-md-10">
+                    <input type="text" name="search" class="form-control"
+                           placeholder="Enter title name..." value="{{ request.GET.search|default:'' }}">
+                </div>
+                <div class="col-sm-3 col-md-2">
+                    <button type="submit" class="btn btn-primary w-100">Search</button>
+                </div>
+            </form>
+        </div>
+    </div>
 
-    <p>
-        <span>Create note: </span>
-        <a href="{% url 'notes:note_create' %}" class="btn-add">Add note</a>
-    </p>
-    <div class="notes-container">
+    <div class="row">
         {% for note in notes %}
-            <div class="note-card">
-                <h2><a href="{{ note.get_absolute_url }}">{{ note.title }}</a></h2>
-                <p>{{ note.text }}</p>
-                <small>Category: {{ note.category.title }}</small>
-                {% if note.reminder %}
-                    <p class="reminder">Reminder: {{ note.reminder }}</p>
-                {% endif %}
-            <p>Created by: {{ note.author }}</p>
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="note-card h-100 shadow-sm p-3">
+                    <h2 class="h5">
+                        <a href="{{ note.get_absolute_url }}" class="text-decoration-none text-blue">
+                            {{ note.title }}
+                        </a>
+                    </h2>
+
+                    <p class="text-muted small mb-2">
+                        {{ note.text|truncatechars:100 }}
+                    </p>
+
+                    <div class="mb-2">
+                        <span class="badge bg-secondary">{{ note.category.title }}</span>
+                    </div>
+
+                    {% if note.reminder %}
+                        <div class="alert alert-warning py-1 px-2 mb-2 small">
+                            <strong>Reminder:</strong> {{ note.reminder|date:"d.m.Y H:i" }}
+                        </div>
+                    {% endif %}
+
+                    <div class="mt-auto pt-2 border-top">
+                        <p class="small text-muted mb-0">Created by: <strong>{{ note.author.username }}</strong></p>
+                    </div>
+                </div>
             </div>
         {% empty %}
-            <p>Notes don't exist.</p>
+            <div class="col-12">
+                <div class="alert alert-light text-center border">
+                    Notes don't exist yet.
+                </div>
+            </div>
         {% endfor %}
     </div>
 
-    {% endblock %}
+{% endblock %}
